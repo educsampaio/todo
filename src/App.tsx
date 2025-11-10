@@ -1,6 +1,9 @@
 import { Badge } from './components/badge'
 import { Text } from './components/text'
 
+import { Button } from './components/button'
+import { PlusIcon } from '@phosphor-icons/react'
+
 export function App() {
   return (
     <div>
@@ -9,6 +12,7 @@ export function App() {
       </Text>
       <Badge variant="secondary">0</Badge>
       <Badge>1 de 5</Badge>
+      <Button icon={PlusIcon}>Nova tarefa</Button>
     </div>
   )
 }
