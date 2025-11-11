@@ -4,6 +4,7 @@ import { Text } from './components/text'
 import { Button } from './components/button'
 import { ButtonIcon } from './components/button-icon'
 import { InputText } from './components/input-text'
+import { Card } from './components/card'
 import { PlusIcon } from '@phosphor-icons/react'
 
 export function App() {
@@ -18,6 +19,7 @@ export function App() {
       <ButtonIcon icon={PlusIcon} />
       <ButtonIcon icon={PlusIcon} variant="tertiary" />
       <InputText />
+      <Card size="md">Hello World</Card>
     </div>
   )
 }
