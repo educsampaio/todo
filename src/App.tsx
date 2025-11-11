@@ -3,6 +3,7 @@ import { Text } from './components/text'
 
 import { Button } from './components/button'
 import { ButtonIcon } from './components/button-icon'
+import { InputText } from './components/input-text'
 import { PlusIcon } from '@phosphor-icons/react'
 
 export function App() {
@@ -16,6 +17,7 @@ export function App() {
       <Button icon={PlusIcon}>Nova tarefa</Button>
       <ButtonIcon icon={PlusIcon} />
       <ButtonIcon icon={PlusIcon} variant="tertiary" />
+      <InputText />
     </div>
   )
 }
