@@ -1,6 +1,7 @@
 import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { IconProps } from '@phosphor-icons/react'
+import { Skeleton } from './skeleton'
 
 const buttonIconVariants = cva(
   `inline-flex items-center justify-center cursor-pointer transition
@@ -8,6 +9,7 @@ const buttonIconVariants = cva(
   {
     variants: {
       variant: {
+        none: '',
         primary: 'bg-green-base hover:bg-green-dark',
         secondary: 'bg-gray-200 hover:bg-pink-base',
         tertiary: 'bg-transparent hover:bg-gray-200',
@@ -26,6 +28,7 @@ const buttonIconVariants = cva(
 const buttonIconIconVariants = cva('transition', {
   variants: {
     variant: {
+      none: '',
       primary: 'text-white',
       secondary: 'text-pink-base group-hover:text-white',
       tertiary: 'text-gray-300 group-hover:text-gray-400',
@@ -44,15 +47,26 @@ interface ButtonIconProps
   extends React.ComponentProps<'button'>,
     VariantProps<typeof buttonIconVariants> {
   icon: React.ComponentType<IconProps>
+  isLoading?: boolean
 }
 
 export function ButtonIcon({
   variant,
   size,
   icon: Icon,
+  isLoading,
   className,
   ...props
 }: ButtonIconProps) {
+  if (isLoading) {
+    return (
+      <Skeleton
+        rounded="sm"
+        className={buttonIconVariants({ variant: 'none', size, className })}
+      />
+    )
+  }
+
   return (
     <button
       className={buttonIconVariants({ variant, size, className })}

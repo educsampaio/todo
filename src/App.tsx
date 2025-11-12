@@ -6,6 +6,7 @@ import { InputText } from './components/input-text'
 import { Card } from './components/card'
 import { Container } from './components/container'
 import { InputCheckbox } from './components/input-checkbox'
+import { Skeleton } from './components/skeleton'
 
 import { PlusIcon } from '@phosphor-icons/react'
 
@@ -24,31 +25,40 @@ export function App() {
         </Text>
       </div>
 
-      <div>
+      <div className="flex gap-2">
         <Badge variant="secondary">0</Badge>
         <Badge>1 de 5</Badge>
+        <Badge isLoading>5</Badge>
       </div>
 
       <div>
         <Button icon={PlusIcon}>Nova tarefa</Button>
       </div>
 
-      <div>
+      <div className="flex gap-2">
         <ButtonIcon icon={PlusIcon} />
         <ButtonIcon icon={PlusIcon} variant="secondary" />
         <ButtonIcon icon={PlusIcon} variant="tertiary" />
+        <ButtonIcon icon={PlusIcon} isLoading />
       </div>
 
       <div>
         <InputText />
       </div>
 
-      <div>
+      <div className="flex gap-2">
         <InputCheckbox />
+        <InputCheckbox isLoading />
       </div>
 
       <div>
         <Card size="md">Hello World</Card>
+      </div>
+
+      <div className="space-y-2">
+        <Skeleton className="h-6" />
+        <Skeleton className="h-6" />
+        <Skeleton className="w-96 h-6" />
       </div>
     </Container>
   )
