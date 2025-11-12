@@ -1,11 +1,12 @@
 import { Badge } from './components/badge'
 import { Text } from './components/text'
-
 import { Button } from './components/button'
 import { ButtonIcon } from './components/button-icon'
 import { InputText } from './components/input-text'
 import { Card } from './components/card'
 import { Container } from './components/container'
+import { InputCheckbox } from './components/input-checkbox'
+
 import { PlusIcon } from '@phosphor-icons/react'
 
 export function App() {
@@ -40,6 +41,10 @@ export function App() {
 
       <div>
         <InputText />
+      </div>
+
+      <div>
+        <InputCheckbox />
       </div>
 
       <div>
