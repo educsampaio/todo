@@ -4,6 +4,9 @@ import { Card } from '../components/card'
 import { InputCheckbox } from '../components/input-checkbox'
 import { InputText } from '../components/input-text'
 import { Text } from '../components/text'
+import { cx } from 'class-variance-authority'
+
+import type { Task } from '../models/task'
 
 import {
   TrashIcon,
@@ -12,8 +15,14 @@ import {
   CheckIcon,
 } from '@phosphor-icons/react'
 
-export function TaskItem() {
-  const [isEditing, setIsEditing] = useState(false)
+interface TaskItemProps {
+  task: Task
+}
+
+export function TaskItem({ task }: TaskItemProps) {
+  const [isEditing, setIsEditing] = useState(
+    task?.state === 'creating' ? true : false
+  )
 
   function handleEditTask() {
     setIsEditing(true)
@@ -26,8 +35,17 @@ export function TaskItem() {
     <Card size="md" className="flex items-center gap-4">
       {!isEditing ? (
         <>
-          <InputCheckbox />
-          <Text className="flex-1">🛒 Fazer compras da semana</Text>
+          <InputCheckbox
+            value={task?.completed?.toString()}
+            checked={task?.completed}
+          />
+          <Text
+            className={cx('flex-1', {
+              'line-through': task?.completed,
+            })}
+          >
+            {task?.title}
+          </Text>
           <div className="flex items-center gap-1">
             <ButtonIcon variant="tertiary" icon={TrashIcon} />
             <ButtonIcon

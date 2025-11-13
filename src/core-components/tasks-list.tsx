@@ -23,7 +23,7 @@ export function TasksList() {
       <ul className="space-y-2">
         {tasks.map((task) => (
           <li key={task.id}>
-            <TaskItem />
+            <TaskItem task={task} />
           </li>
         ))}
       </ul>
