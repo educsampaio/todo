@@ -8,7 +8,7 @@ export function useTasks() {
 
   return {
     tasks,
-    tasksCount: tasks.length,
+    createdTasksCount: tasks.filter((task) => task.state === 'created').length,
     completedTasksCount: tasks.filter((task) => task.completed).length,
   }
 }
