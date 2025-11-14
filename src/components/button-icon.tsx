@@ -1,6 +1,6 @@
 import React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import type { IconProps } from '@phosphor-icons/react'
+import { cva, cx, type VariantProps } from 'class-variance-authority'
+import { type IconProps, SpinnerIcon } from '@phosphor-icons/react'
 import { Skeleton } from './skeleton'
 
 const buttonIconVariants = cva(
@@ -16,6 +16,9 @@ const buttonIconVariants = cva(
       },
       size: {
         sm: 'w-6 h-6 p-1 rounded',
+      },
+      handling: {
+        true: 'pointer-events-none',
       },
     },
     defaultVariants: {
@@ -48,6 +51,7 @@ interface ButtonIconProps
     VariantProps<typeof buttonIconVariants> {
   icon: React.ComponentType<IconProps>
   isLoading?: boolean
+  handling?: boolean
 }
 
 export function ButtonIcon({
@@ -55,6 +59,7 @@ export function ButtonIcon({
   size,
   icon: Icon,
   isLoading,
+  handling,
   className,
   ...props
 }: ButtonIconProps) {
@@ -69,10 +74,19 @@ export function ButtonIcon({
 
   return (
     <button
-      className={buttonIconVariants({ variant, size, className })}
+      className={buttonIconVariants({ variant, size, handling, className })}
       {...props}
     >
-      <Icon className={buttonIconIconVariants({ variant, size })} />
+      {handling ? (
+        <SpinnerIcon
+          className={cx(
+            buttonIconIconVariants({ variant, size }),
+            'animate-spin'
+          )}
+        />
+      ) : (
+        <Icon className={buttonIconIconVariants({ variant, size })} />
+      )}
     </button>
   )
 }

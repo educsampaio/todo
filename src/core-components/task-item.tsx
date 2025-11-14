@@ -15,17 +15,25 @@ import {
   XIcon,
   CheckIcon,
 } from '@phosphor-icons/react'
+import { Skeleton } from '../components/skeleton'
 
 interface TaskItemProps {
   task: Task
+  isLoading?: boolean
 }
 
-export function TaskItem({ task }: TaskItemProps) {
+export function TaskItem({ task, isLoading }: TaskItemProps) {
   const [isEditing, setIsEditing] = useState(
     task?.state === 'creating' ? true : false
   )
   const [taskTitle, setTaskTitle] = useState(task.title || '')
-  const { updateTask, updateTaskStatus, deleteTask } = useTask()
+  const {
+    updateTask,
+    updateTaskStatus,
+    deleteTask,
+    isUpdatingTask,
+    isDeletingTask,
+  } = useTask()
 
   function handleEditTask() {
     setIsEditing(true)
@@ -43,9 +51,9 @@ export function TaskItem({ task }: TaskItemProps) {
     setTaskTitle(e.target.value || '')
   }
 
-  function handleSaveTask(e: FormEvent<HTMLFormElement>) {
+  async function handleSaveTask(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    updateTask(task.id, { title: taskTitle })
+    await updateTask(task.id, { title: taskTitle })
     setIsEditing(false)
   }
 
@@ -55,8 +63,8 @@ export function TaskItem({ task }: TaskItemProps) {
     updateTaskStatus(task.id, checked)
   }
 
-  function handleDeleteTask() {
-    deleteTask(task.id)
+  async function handleDeleteTask() {
+    await deleteTask(task.id)
   }
 
   return (
@@ -66,24 +74,38 @@ export function TaskItem({ task }: TaskItemProps) {
           <InputCheckbox
             checked={task?.completed}
             onChange={handleChangeTaskStatus}
+            isLoading={isLoading}
           />
-          <Text
-            className={cx('flex-1', {
-              'line-through text-gray-300!': task?.completed,
-            })}
-          >
-            {task?.title}
-          </Text>
+          {!isLoading ? (
+            <Text
+              className={cx('flex-1', {
+                'line-through text-gray-300!': task?.completed,
+              })}
+            >
+              {task?.title}
+            </Text>
+          ) : (
+            <Text
+              className={cx('flex-1', {
+                'line-through text-gray-300!': task?.completed,
+              })}
+            >
+              <Skeleton className="h-6" />
+            </Text>
+          )}
           <div className="flex items-center gap-1">
             <ButtonIcon
               variant="tertiary"
               icon={TrashIcon}
               onClick={handleDeleteTask}
+              isLoading={isLoading}
+              handling={isDeletingTask}
             />
             <ButtonIcon
               variant="tertiary"
               icon={PencilSimpleIcon}
               onClick={handleEditTask}
+              isLoading={isLoading}
             />
           </div>
         </div>
@@ -103,7 +125,11 @@ export function TaskItem({ task }: TaskItemProps) {
               icon={XIcon}
               onClick={handleExitEditTask}
             />
-            <ButtonIcon type="submit" icon={CheckIcon} />
+            <ButtonIcon
+              type="submit"
+              icon={CheckIcon}
+              handling={isUpdatingTask}
+            />
           </div>
         </form>
       )}

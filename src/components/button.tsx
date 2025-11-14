@@ -1,6 +1,6 @@
 import React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { type IconProps } from '@phosphor-icons/react'
+import { cva, cx, type VariantProps } from 'class-variance-authority'
+import { SpinnerIcon, type IconProps } from '@phosphor-icons/react'
 import { Text } from './text'
 
 const buttonVariants = cva(
@@ -13,6 +13,9 @@ const buttonVariants = cva(
       },
       size: {
         md: 'h-14 px-5 py-4',
+      },
+      handling: {
+        true: 'pointer-events-none',
       },
     },
     defaultVariants: {
@@ -52,19 +55,31 @@ interface ButtonProps
   extends React.ComponentProps<'button'>,
     VariantProps<typeof buttonVariants> {
   icon?: React.ComponentType<IconProps>
+  handling?: boolean
 }
 
 export function Button({
   variant,
   size,
+  handling,
   className,
   icon: Icon,
   children,
   ...props
 }: ButtonProps) {
   return (
-    <button className={buttonVariants({ variant, size, className })} {...props}>
-      {Icon && <Icon className={buttonIconVariants({ variant, size })} />}
+    <button
+      className={buttonVariants({ variant, size, handling, className })}
+      {...props}
+    >
+      {Icon && !handling && (
+        <Icon className={buttonIconVariants({ variant, size })} />
+      )}
+      {Icon && handling && (
+        <SpinnerIcon
+          className={cx(buttonIconVariants({ variant, size }), 'animate-spin')}
+        />
+      )}
 
       <Text variant="body-md-bold" className={buttonTextVariants({ variant })}>
         {children}
